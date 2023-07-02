@@ -1,5 +1,6 @@
 # Ignore the virtual environment directory
 service/group5-final/
+service/.env
 
 # Ignore __pycache__ directories and .pyc files
 __pycache__/
