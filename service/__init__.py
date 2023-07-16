@@ -1,6 +1,7 @@
-from flask import Flask, g
+from flask import Flask, g, request, jsonify
 from flask_cors import CORS
 import psycopg2
+from psycopg2.extras import RealDictCursor
 import os
 from dotenv import load_dotenv
 
@@ -25,10 +26,57 @@ def close_db(error):
     if 'db' in g:
         g.db.close()
 
-@app.route('/')
-def hello_world():
+@app.route('/test')
+def service_check():
+    return "movie service is up!"
+
+@app.route('/tables')
+def table_check():
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
-    rows = cursor.fetchone()
+    cursor.execute("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';")
+    rows = cursor.fetchall()
     return str(rows)
+
+@app.route('/series', methods=['GET'])
+def get_series():
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=20, type=int)
+    offset = (page - 1) * limit
+
+    query = """
+    SELECT 
+        series.id AS series_id,
+        series.name AS series_name,
+        series.release_year,
+        series.rating,
+        series.certificate,
+        series.vote_count,
+        series.series_type,
+        genres.name AS genre_name,
+        directors.name AS director_name,
+        actors.name AS actor_name
+    FROM 
+        series
+    LEFT JOIN 
+        series_genre ON series.id = series_genre.series_id
+    LEFT JOIN 
+        genres ON series_genre.genre_id = genres.id
+    LEFT JOIN 
+        series_directors ON series.id = series_directors.series_id
+    LEFT JOIN 
+        directors ON series_directors.director_id = directors.id
+    LEFT JOIN 
+        series_actors ON series.id = series_actors.series_id
+    LEFT JOIN 
+        actors ON series_actors.actor_id = actors.id
+    ORDER BY
+        series.id
+    LIMIT %s OFFSET %s;
+    """
+    
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(query, (limit, offset))
+    records = cursor.fetchall()
+    return jsonify(records)
