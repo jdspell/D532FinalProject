@@ -1,29 +1,13 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-const Home = () => {
-  const [data, setData] = useState([]);
+type HomeProps = {
+  data: any[];
+};
 
-  useEffect(() => {
-    // Fetch data from Flask API when component mounts
-    fetch('https://d532-web-service.onrender.com/series')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      setData(data);
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
-  }, []);
-
+const Home: React.FC<HomeProps> = ({ data }) => {
   return (
     <DataTable value={data}>
       <Column field='series_id' header='Series ID'></Column>
