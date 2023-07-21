@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Layout for the search component */
+.p-d-flex {
+  align-items: center;  /* Align items in the center in cross axis */
+  justify-content: space-between;  /* Distribute space evenly in main axis */
+  flex-wrap: wrap; /* Allows the flex items to wrap if necessary */
+}
+
+/* For input fields and dropdown */
+.p-d-flex .p-dropdown,
+.p-d-flex .p-inputtext {
+  margin-right: 10px;  /* Provide some space between items */
+}
+
+/* For buttons */
+.p-d-flex .p-button {
+  margin-left: 10px;  /* Provide some space between items */
+}
+
+/* For current page display */
+.p-d-flex .currentPage {
+  margin: 0 10px; /* Provide some space around */
+}
+
+/* For the navigation controls container */
+.p-d-flex .p-flex-grow-1 {
+  flex-grow: 1;
+}
+

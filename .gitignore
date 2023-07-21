@@ -1,0 +1,16 @@
+# Ignore the virtual environment directory
+service/group5-final/
+service/.env
+
+# Ignore __pycache__ directories and .pyc files
+__pycache__/
+*.pyc
+
+# Ignore .env files which might contain sensitive information
+.env
+
+# Ignore VSCode related directories
+.vscode/
+
+#Ignore node modules
+ui/node_modules
