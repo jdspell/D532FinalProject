@@ -15,6 +15,7 @@ export default function App() {
 
   return (
     <div>
+      <h1 className="text-center text-3xl font-semibold my-6">GroovyMovies</h1>
       <Search setData={setData} />
       <Home data={data} />
     </div>
