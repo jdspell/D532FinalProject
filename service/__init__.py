@@ -1,6 +1,7 @@
 from flask import Flask, g, request, jsonify
 from flask_cors import CORS
 import psycopg2
+from psycopg2.extras import RealDictCursor
 import os
 from dotenv import load_dotenv
 
@@ -75,7 +76,7 @@ def get_series():
     """
     
     db = get_db()
-    cursor = db.cursor()
+    cursor = db.cursor(cursor_factory=RealDictCursor)
     cursor.execute(query, (limit, offset))
     records = cursor.fetchall()
     return jsonify(records)
@@ -146,7 +147,7 @@ def search():
     search_term = '%' + search_term + '%'
     
     db = get_db()
-    cursor = db.cursor()
+    cursor = db.cursor(cursor_factory=RealDictCursor)
     cursor.execute(query, (search_term, limit, offset))
     records = cursor.fetchall()
 
