@@ -68,17 +68,17 @@ const Search: React.FC<SearchProps> = ({ setData }) => {
     }, [searchType, searchTerm, currentPage]);
 
     return (
-        <div className="p-d-flex p-ai-center p-jc-between">
-            <div className="p-d-flex p-ai-center">
-                <Dropdown value={searchType} options={searchOptions} onChange={(e) => setSearchType(e.value)} placeholder="Select a search type"/>
-                <InputText value={searchTerm} onChange={onSearchInputChange} placeholder="Search term"/>
-                <Button label="Search" onClick={executeSearch} />
-                <Button label="Reset" onClick={reset} />
+        <div className="flex items-center justify-between">
+            <div className="flex items-center">
+                <Dropdown value={searchType} options={searchOptions} onChange={(e) => setSearchType(e.value)} placeholder="Select a search type" className="mr-2"/>
+                <InputText value={searchTerm} onChange={onSearchInputChange} placeholder="Search term" className="mr-2"/>
+                <Button label="Search" onClick={executeSearch} className="mr-2"/>
+                <Button label="Reset" onClick={reset} className="mr-2"/>
             </div>
-            <div className="p-d-flex p-ai-center">
-                <Button icon="pi pi-chevron-left" className="p-button-rounded p-button-success" onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}/>
-                <div className="p-ml-2 p-mr-2">{currentPage}</div>
-                <Button icon="pi pi-chevron-right" className="p-button-rounded p-button-success" onClick={() => setCurrentPage(prevPage => prevPage + 1)}/>
+            <div className="flex items-center">
+                <Button icon="pi pi-chevron-left" className="rounded-full text-green-500 mr-2" onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 1))}/>
+                <div className="mx-2">{currentPage}</div>
+                <Button icon="pi pi-chevron-right" className="rounded-full text-green-500" onClick={() => setCurrentPage(prevPage => prevPage + 1)}/>
             </div>
         </div>
     );
